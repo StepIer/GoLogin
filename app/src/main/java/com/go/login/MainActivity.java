@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     public void navigateToLogin(){
         navigate(LoginFragment.newInstance());
     }
-    public void navigateRegistration(){
+    public void navigateToRegistration(){
         navigate(RegistrationFragment.newInstance());
     }
 
