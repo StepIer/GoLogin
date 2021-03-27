@@ -1,22 +1,26 @@
-package com.go.login;
+package com.go.login.fragments;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class RegistrationFragment extends Fragment {
+import com.go.login.MainActivity;
+import com.go.login.R;
+
+public class FragmentRegistration extends Fragment {
 
 
     Button login;
 
 
-    static RegistrationFragment newInstance(){
-        return new RegistrationFragment();
+    static FragmentRegistration newInstance(){
+        return new FragmentRegistration();
     }
 
     @Override
@@ -32,7 +36,7 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                ((MainActivity)getActivity()).navigateToLogin();
+                Navigation.findNavController(v).navigate(R.id.action_registrationFragment_to_loginFragment);
 
             }
         });

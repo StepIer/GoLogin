@@ -7,6 +7,11 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.go.login.fragments.FragmentLogin;
+import com.go.login.fragments.FragmentRegistration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,22 +21,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        navigate(LoginFragment.newInstance());
-    }
-    public void navigateToLogin(){
-        navigate(LoginFragment.newInstance());
-    }
-    public void navigateToRegistration(){
-        navigate(RegistrationFragment.newInstance());
+
+
+
+
     }
 
-    public void navigate(Fragment fragment) {
-        FragmentManager supportFragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = supportFragmentManager
-                .beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_place, fragment);
-        fragmentTransaction.commit();
-        supportFragmentManager.executePendingTransactions();
-    }
 
 }
