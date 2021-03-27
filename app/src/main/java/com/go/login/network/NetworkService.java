@@ -1,5 +1,8 @@
 package com.go.login.network;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -7,7 +10,7 @@ public class NetworkService {
 
     private static NetworkService mInstance;
 
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
+    private static final String BASE_URL = "https://api.gologin.app";
     private Retrofit mRetrofit;
 
     private NetworkService() {
@@ -23,8 +26,8 @@ public class NetworkService {
         }
         return mInstance;
     }
-    public JSONPlaceHolderApi getJSONApi() {
-        return mRetrofit.create(JSONPlaceHolderApi.class);
+    public JSONGoLoginApi getJSONApi() {
+        return mRetrofit.create(JSONGoLoginApi.class);
     }
-
 }
+
