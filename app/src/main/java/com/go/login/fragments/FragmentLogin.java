@@ -13,11 +13,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.go.login.R;
-import com.go.login.network.ErrorRegistration;
-import com.go.login.network.RegistrationData;
+import com.go.login.network.entity.LoginUserDTO;
+import com.go.login.network.entity.RegistrationData;
 import com.go.login.network.NetworkService;
-import com.go.login.network.TokenData;
-import com.go.login.network.UserEntity;
+import com.go.login.network.entity.TokenData;
+import com.go.login.network.entity.UserEntity;
 
 import java.io.IOException;
 
@@ -88,7 +88,7 @@ public class FragmentLogin extends Fragment {
             @Override
             public void onClick(View v) {
 
-                RegistrationData registrationData = new RegistrationData("email_test@mail.ru", "pass_test", "pass_test", "google_client_test");
+                RegistrationData registrationData = new RegistrationData("email_test1@mail.ru", "pass_test", "pass_test", "google_client_test1");
                 TokenData tokenData;
 
                 NetworkService.getInstance()
@@ -128,6 +128,41 @@ public class FragmentLogin extends Fragment {
         post_user_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LoginUserDTO loginUserDTO = new LoginUserDTO("email_test@mail.ru", "pass_test", true, "google_client_test");
+
+                TokenData tokenData;
+
+                NetworkService.getInstance()
+                        .getJSONApi()
+                        .postUserLogin(loginUserDTO)
+                        .enqueue(new Callback<TokenData>() {
+                            @Override
+                            public void onResponse(Call<TokenData> call, Response<TokenData> response) {
+
+                                if (response.code() == 201) {
+                                    TokenData tokenData = response.body();
+
+                                    textView.append(tokenData.getId() + "\n");
+                                    textView.append(tokenData.getAccessToken() + "\n");
+                                    textView.append(tokenData.getRefreshToken() + "\n");
+                                    textView.append(tokenData.getToken() + "\n");
+                                } else {
+                                    try {
+                                        Log.v("Error code 400",response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<TokenData> call, Throwable t) {
+
+                                textView.append("Error occurred while getting request!");
+                                t.printStackTrace();
+                            }
+
+                        });
 
             }
         });

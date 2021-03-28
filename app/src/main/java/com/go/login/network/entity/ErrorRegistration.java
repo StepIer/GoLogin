@@ -1,4 +1,4 @@
-package com.go.login.network;
+package com.go.login.network.entity;
 
 
 

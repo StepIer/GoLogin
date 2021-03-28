@@ -1,5 +1,10 @@
 package com.go.login.network;
 
+import com.go.login.network.entity.LoginUserDTO;
+import com.go.login.network.entity.RegistrationData;
+import com.go.login.network.entity.TokenData;
+import com.go.login.network.entity.UserEntity;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -21,6 +26,6 @@ public interface JSONGoLoginApi {
     @POST("/user")
     public Call<TokenData> postUser(@Body RegistrationData registrationData);
     @POST("/user/login")
-    public Call<UserEntity> postUserLogin();
+    public Call<TokenData> postUserLogin(@Body LoginUserDTO loginUserDTO);
 
 }
