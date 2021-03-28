@@ -1,8 +1,11 @@
 package com.go.login.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.go.login.MainActivity;
 import com.go.login.R;
 import com.go.login.network.entity.LoginUserDTO;
 import com.go.login.network.entity.RegistrationData;
@@ -32,11 +36,15 @@ public class FragmentLogin extends Fragment {
         return new FragmentLogin();
     }
 
+
+
     Button get;
     Button post_user;
     Button post_user_login;
     TextView textView;
     TokenData tokenData = null;
+    TextView prefText;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -46,10 +54,20 @@ public class FragmentLogin extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
 
+
+        MainActivity mainActivity = (MainActivity)this.getActivity();
+       // mainActivity.setPref("dsfgvbhn");
+
+
+
         get = rootView.findViewById(R.id.btn_get);
         post_user = rootView.findViewById(R.id.btn_post_user);
         post_user_login = rootView.findViewById(R.id.btn_post_user_login);
         textView = rootView.findViewById(R.id.text_login);
+        prefText = rootView.findViewById(R.id.text_pref);
+
+        prefText.setText(mainActivity.getPref());
+
 
 
 

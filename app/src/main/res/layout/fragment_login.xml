@@ -42,4 +42,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_post_user" />
 
+    <TextView
+        android:id="@+id/text_pref"
+        android:layout_width="203dp"
+        android:layout_height="170dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/text_login"
+        app:layout_constraintEnd_toStartOf="@+id/btn_post_user_login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
