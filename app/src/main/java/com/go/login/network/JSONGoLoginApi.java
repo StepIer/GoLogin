@@ -8,6 +8,7 @@ import com.go.login.network.entity.UserEntity;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 
@@ -16,7 +17,7 @@ public interface JSONGoLoginApi {
 //    @GET("/posts/{id}")
 //    public Call<UserEntity> getUser(@Path("id") int id);
     @GET("/user")
-    public Call<UserEntity> getUser();
+    public Call<UserEntity> getUser(@Header("Authorization") String token);
 //    {
 //        "username": "string",
 //            "password": "string",

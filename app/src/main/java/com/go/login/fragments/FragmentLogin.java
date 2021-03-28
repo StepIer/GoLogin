@@ -36,7 +36,7 @@ public class FragmentLogin extends Fragment {
     Button post_user;
     Button post_user_login;
     TextView textView;
-
+    TokenData tokenData = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -52,31 +52,37 @@ public class FragmentLogin extends Fragment {
         textView = rootView.findViewById(R.id.text_login);
 
 
+
         get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 NetworkService.getInstance()
                         .getJSONApi()
-                        .getUser()
+                        .getUser("Bearer " + tokenData.getToken())
                         .enqueue(new Callback<UserEntity>() {
                             @Override
                             public void onResponse(@NonNull Call<UserEntity> call, @NonNull Response<UserEntity> response) {
-                                UserEntity user = response.body();
+                                if (response.code() == 200) {
+                                    UserEntity user = response.body();
 
-                                textView.append(user.getId() + "\n");
-                                textView.append(user.getCreatedAt() + "\n");
-                                textView.append(user.getEmail() + "\n");
-                                textView.append(user.getHasTrial() + "\n");
-                                textView.append(user.getNeedCard() + "\n");
-                                textView.append(user.getPlan() + "\n");
-                                textView.append(user.getTrialDays() + "\n");
-
+                                    textView.append(user.getId() + "\n");
+                                    textView.append(user.getCreatedAt() + "\n");
+                                    textView.append(user.getEmail() + "\n");
+                                    textView.append(user.getHasTrial() + "\n");
+                                    textView.append(user.getNeedCard() + "\n");
+                                    textView.append(user.getPlan() + "\n");
+                                    textView.append(user.getTrialDays() + "\n");
+                                } else {
+                                    try {
+                                        Log.v("Error code 400",response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                             }
-
                             @Override
                             public void onFailure(@NonNull Call<UserEntity> call, @NonNull Throwable t) {
-
                                 textView.append("Error occurred while getting request!");
                                 t.printStackTrace();
                             }
@@ -89,7 +95,7 @@ public class FragmentLogin extends Fragment {
             public void onClick(View v) {
 
                 RegistrationData registrationData = new RegistrationData("email_test1@mail.ru", "pass_test", "pass_test", "google_client_test1");
-                TokenData tokenData;
+
 
                 NetworkService.getInstance()
                         .getJSONApi()
@@ -99,7 +105,7 @@ public class FragmentLogin extends Fragment {
                             public void onResponse(Call<TokenData> call, Response<TokenData> response) {
 
                                 if (response.code() == 201) {
-                                    TokenData tokenData = response.body();
+                                    tokenData = response.body();
 
                                     textView.append(tokenData.getId() + "\n");
                                     textView.append(tokenData.getAccessToken() + "\n");
@@ -113,34 +119,26 @@ public class FragmentLogin extends Fragment {
                                     }
                                 }
                             }
-
                             @Override
                             public void onFailure(Call<TokenData> call, Throwable t) {
-
                                 textView.append("Error occurred while getting request!");
                                 t.printStackTrace();
                             }
-
                         });
-
             }
         });
         post_user_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoginUserDTO loginUserDTO = new LoginUserDTO("email_test@mail.ru", "pass_test", true, "google_client_test");
-
-                TokenData tokenData;
-
                 NetworkService.getInstance()
                         .getJSONApi()
                         .postUserLogin(loginUserDTO)
                         .enqueue(new Callback<TokenData>() {
                             @Override
                             public void onResponse(Call<TokenData> call, Response<TokenData> response) {
-
                                 if (response.code() == 201) {
-                                    TokenData tokenData = response.body();
+                                    tokenData = response.body();
 
                                     textView.append(tokenData.getId() + "\n");
                                     textView.append(tokenData.getAccessToken() + "\n");
@@ -161,13 +159,9 @@ public class FragmentLogin extends Fragment {
                                 textView.append("Error occurred while getting request!");
                                 t.printStackTrace();
                             }
-
                         });
-
             }
         });
-
-
         return rootView;
     }
 }
