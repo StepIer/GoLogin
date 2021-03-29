@@ -1,13 +1,6 @@
 package com.go.login.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +8,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
+import com.go.login.App;
 import com.go.login.MainActivity;
 import com.go.login.R;
+import com.go.login.network.JSONGoLoginApi;
+import com.go.login.network.TokenProvider;
 import com.go.login.network.entity.LoginUserDTO;
 import com.go.login.network.entity.RegistrationData;
-import com.go.login.network.NetworkService;
 import com.go.login.network.entity.TokenData;
 import com.go.login.network.entity.UserEntity;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +38,12 @@ public class FragmentLogin extends Fragment {
     }
 
 
+    //Dagger
+
+    @Inject
+    public JSONGoLoginApi jsonGoLoginApi;
+    @Inject
+    public TokenProvider tokenProvider;
 
     Button get;
     Button post_user;
@@ -44,6 +51,7 @@ public class FragmentLogin extends Fragment {
     TextView textView;
     TokenData tokenData = null;
     TextView prefText;
+    Button registration;
 
 
     @Override
@@ -52,12 +60,12 @@ public class FragmentLogin extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+        App.applicationComponent.inject(this);
 
 
+        MainActivity mainActivity = (MainActivity) this.getActivity();
 
-        MainActivity mainActivity = (MainActivity)this.getActivity();
-       // mainActivity.setPref("dsfgvbhn");
-
+        // mainActivity.setPref("dsfgvbhn");
 
 
         get = rootView.findViewById(R.id.btn_get);
@@ -65,120 +73,121 @@ public class FragmentLogin extends Fragment {
         post_user_login = rootView.findViewById(R.id.btn_post_user_login);
         textView = rootView.findViewById(R.id.text_login);
         prefText = rootView.findViewById(R.id.text_pref);
+        registration = rootView.findViewById(R.id.btn_registration);
 
-        prefText.setText(mainActivity.getPref());
+        prefText.setText(tokenProvider.getPref());
 
 
+        registration.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_registrationFragment));
 
 
-        get.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        get.setOnClickListener(v -> jsonGoLoginApi
+                .getUser("Bearer " + tokenData.getToken())
+                .enqueue(new Callback<UserEntity>() {
+                    @Override
+                    public void onResponse(@NonNull Call<UserEntity> call, @NonNull Response<UserEntity> response) {
+                        if (response.code() == 200) {
 
-                NetworkService.getInstance()
-                        .getJSONApi()
-                        .getUser("Bearer " + tokenData.getToken())
-                        .enqueue(new Callback<UserEntity>() {
-                            @Override
-                            public void onResponse(@NonNull Call<UserEntity> call, @NonNull Response<UserEntity> response) {
-                                if (response.code() == 200) {
-                                    UserEntity user = response.body();
+                            UserEntity user = response.body();
+                            if (user != null) {
 
-                                    textView.append(user.getId() + "\n");
-                                    textView.append(user.getCreatedAt() + "\n");
-                                    textView.append(user.getEmail() + "\n");
-                                    textView.append(user.getHasTrial() + "\n");
-                                    textView.append(user.getNeedCard() + "\n");
-                                    textView.append(user.getPlan() + "\n");
-                                    textView.append(user.getTrialDays() + "\n");
-                                } else {
-                                    try {
-                                        Log.v("Error code 400",response.errorBody().string());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                                textView.append(user.getId() + "\n");
+                                textView.append(user.getCreatedAt() + "\n");
+                                textView.append(user.getEmail() + "\n");
+                                textView.append(user.getHasTrial() + "\n");
+                                textView.append(user.getNeedCard() + "\n");
+                                textView.append(user.getPlan() + "\n");
+                                textView.append(user.getTrialDays() + "\n");
+                            }
+                        } else {
+                            try {
+                                if (response.errorBody() != null) {
+                                    Log.v("Error code 400", response.errorBody().string());
                                 }
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                            @Override
-                            public void onFailure(@NonNull Call<UserEntity> call, @NonNull Throwable t) {
-                                textView.append("Error occurred while getting request!");
-                                t.printStackTrace();
-                            }
-                        });
+                        }
+                    }
 
-            }
-        });
-        post_user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    @Override
+                    public void onFailure(@NonNull Call<UserEntity> call, @NonNull Throwable t) {
+                        textView.append("Error occurred while getting request!");
+                        t.printStackTrace();
+                    }
+                }));
+        post_user.setOnClickListener(v -> {
 
-                RegistrationData registrationData = new RegistrationData("email_test1@mail.ru", "pass_test", "pass_test", "google_client_test1");
+            RegistrationData registrationData = new RegistrationData("email_test1@mail.ru", "pass_test", "pass_test", "google_client_test1");
 
 
-                NetworkService.getInstance()
-                        .getJSONApi()
-                        .postUser(registrationData)
-                        .enqueue(new Callback<TokenData>() {
-                            @Override
-                            public void onResponse(Call<TokenData> call, Response<TokenData> response) {
+            jsonGoLoginApi
+                    .postUser(registrationData)
+                    .enqueue(new Callback<TokenData>() {
+                        @Override
+                        public void onResponse(Call<TokenData> call, Response<TokenData> response) {
 
-                                if (response.code() == 201) {
-                                    tokenData = response.body();
+                            if (response.code() == 201) {
+                                tokenData = response.body();
+                                if (tokenData != null) {
 
                                     textView.append(tokenData.getId() + "\n");
                                     textView.append(tokenData.getAccessToken() + "\n");
                                     textView.append(tokenData.getRefreshToken() + "\n");
                                     textView.append(tokenData.getToken() + "\n");
-                                } else {
-                                    try {
-                                        Log.v("Error code 400",response.errorBody().string());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                }
+                            } else {
+                                try {
+                                    if (response.errorBody() != null) {
+                                        Log.v("Error code 400", response.errorBody().string());
                                     }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
                             }
-                            @Override
-                            public void onFailure(Call<TokenData> call, Throwable t) {
-                                textView.append("Error occurred while getting request!");
-                                t.printStackTrace();
-                            }
-                        });
-            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<TokenData> call, Throwable t) {
+                            textView.append("Error occurred while getting request!");
+                            t.printStackTrace();
+                        }
+                    });
         });
-        post_user_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginUserDTO loginUserDTO = new LoginUserDTO("email_test@mail.ru", "pass_test", true, "google_client_test");
-                NetworkService.getInstance()
-                        .getJSONApi()
-                        .postUserLogin(loginUserDTO)
-                        .enqueue(new Callback<TokenData>() {
-                            @Override
-                            public void onResponse(Call<TokenData> call, Response<TokenData> response) {
-                                if (response.code() == 201) {
-                                    tokenData = response.body();
+        post_user_login.setOnClickListener(v -> {
+            LoginUserDTO loginUserDTO = new LoginUserDTO("email_test@mail.ru", "pass_test", true, "google_client_test");
+            jsonGoLoginApi
+                    .postUserLogin(loginUserDTO)
+                    .enqueue(new Callback<TokenData>() {
+                        @Override
+                        public void onResponse(Call<TokenData> call, Response<TokenData> response) {
+                            if (response.code() == 201) {
+                                tokenData = response.body();
+                                if (tokenData != null) {
 
                                     textView.append(tokenData.getId() + "\n");
                                     textView.append(tokenData.getAccessToken() + "\n");
                                     textView.append(tokenData.getRefreshToken() + "\n");
                                     textView.append(tokenData.getToken() + "\n");
-                                } else {
-                                    try {
-                                        Log.v("Error code 400",response.errorBody().string());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                }
+                            } else {
+                                try {
+                                    if (response.errorBody() != null) {
+                                        Log.v("Error code 400", response.errorBody().string());
                                     }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
                             }
+                        }
 
-                            @Override
-                            public void onFailure(Call<TokenData> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<TokenData> call, Throwable t) {
 
-                                textView.append("Error occurred while getting request!");
-                                t.printStackTrace();
-                            }
-                        });
-            }
+                            textView.append("Error occurred while getting request!");
+                            t.printStackTrace();
+                        }
+                    });
         });
         return rootView;
     }

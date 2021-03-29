@@ -3,4 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="login">login</string>
     <string name="registration">registration</string>
+    <string name="sign_in">Sign In</string>
+    <string name="e_mail_address">E-mail Address</string>
+    <string name="password">Password</string>
 </resources>

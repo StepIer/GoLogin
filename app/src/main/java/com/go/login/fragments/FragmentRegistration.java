@@ -1,16 +1,13 @@
 package com.go.login.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.go.login.MainActivity;
+import androidx.fragment.app.Fragment;
+
 import com.go.login.R;
 
 public class FragmentRegistration extends Fragment {
@@ -30,15 +27,12 @@ public class FragmentRegistration extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_registration, container, false);
 
 
-        login = rootView.findViewById(R.id.button2);
+        login = rootView.findViewById(R.id.btn_sign_in);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        login.setOnClickListener(v -> {
 
-                Navigation.findNavController(v).navigate(R.id.action_registrationFragment_to_loginFragment);
+           // Navigation.findNavController(v).navigate(R.id.action_registrationFragment_to_loginFragment);
 
-            }
         });
 
         return rootView;
