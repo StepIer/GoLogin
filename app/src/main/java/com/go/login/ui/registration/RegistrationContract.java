@@ -1,10 +1,10 @@
 package com.go.login.ui.registration;
 
 public interface RegistrationContract {
-    interface View{
+    interface View extends com.go.login.ui.base.View {
 
     }
-    interface Presenter{
+    interface Presenter extends com.go.login.ui.base.Presenter {
 
     }
 }

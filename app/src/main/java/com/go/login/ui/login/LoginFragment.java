@@ -1,11 +1,13 @@
 package com.go.login.ui.login;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.fragment.app.Fragment;
@@ -30,10 +32,10 @@ import javax.inject.Inject;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
 
-public class FragmentLogin extends Fragment {
+public class LoginFragment extends Fragment implements LoginContract.View {
 
-    static FragmentLogin newInstance() {
-        return new FragmentLogin();
+    static LoginFragment newInstance() {
+        return new LoginFragment();
     }
 
 
@@ -49,6 +51,8 @@ public class FragmentLogin extends Fragment {
     public RegistrationUseCase registrationUseCase;
     @Inject
     public LoginUseCase loginUseCase;
+    @Inject
+    public LoginContract.Presenter loginPresenter;
 
     Button get;
     Button post_user;
@@ -66,6 +70,7 @@ public class FragmentLogin extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         App.applicationComponent.inject(this);
+        loginPresenter.start(this);
 
 
         MainActivity mainActivity = (MainActivity) this.getActivity();
@@ -112,15 +117,21 @@ public class FragmentLogin extends Fragment {
 
         });
         post_user_login.setOnClickListener(v -> {
-            LoginUserDTO loginUserDTO = new LoginUserDTO("email_test@mail.ru", "pass_test", true, "google_client_test");
-            loginUseCase.logIn(loginUserDTO)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(() -> {
-
-                    }, throwable -> {
-
-                    });
+           // LoginUserDTO loginUserDTO = new LoginUserDTO("email_test@mail.ru", "pass_test", true, "google_client_test");
+            loginPresenter.singIn("email_test@mail.ru", "pass_test");
         });
         return rootView;
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        loginPresenter.stop();
+    }
+
+    @Override
+    public void toUserInfo() {
+        Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
     }
 }

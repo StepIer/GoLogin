@@ -10,14 +10,14 @@ import androidx.fragment.app.Fragment;
 
 import com.go.login.R;
 
-public class FragmentRegistration extends Fragment {
+public class RegistrationFragment extends Fragment {
 
 
     Button login;
 
 
-    static FragmentRegistration newInstance(){
-        return new FragmentRegistration();
+    static RegistrationFragment newInstance(){
+        return new RegistrationFragment();
     }
 
     @Override
