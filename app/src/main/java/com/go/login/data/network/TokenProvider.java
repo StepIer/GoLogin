@@ -1,4 +1,4 @@
-package com.go.login.network;
+package com.go.login.data.network;
 
 import android.content.Context;
 import android.content.SharedPreferences;

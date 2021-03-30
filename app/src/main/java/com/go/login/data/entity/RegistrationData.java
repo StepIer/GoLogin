@@ -1,4 +1,4 @@
-package com.go.login.network.entity;
+package com.go.login.data.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

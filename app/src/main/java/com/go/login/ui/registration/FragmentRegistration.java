@@ -1,4 +1,4 @@
-package com.go.login.fragments;
+package com.go.login.ui.registration;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

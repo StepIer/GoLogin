@@ -3,15 +3,18 @@ package com.go.login.di;
 
 import android.content.Context;
 
-import com.go.login.network.JSONGoLoginApi;
-import com.go.login.network.NetworkService;
-import com.go.login.network.TokenProvider;
+import com.go.login.data.network.JSONGoLoginApi;
+import com.go.login.data.network.NetworkService;
+import com.go.login.data.network.TokenProvider;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import retrofit2.Retrofit;
+
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
@@ -23,6 +26,7 @@ public class NetworkModule {
         return new Retrofit.Builder()
                 .baseUrl(NetworkService.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
     }
 

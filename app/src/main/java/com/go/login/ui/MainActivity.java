@@ -1,8 +1,10 @@
-package com.go.login;
+package com.go.login.ui;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.go.login.R;
 
 public class MainActivity extends AppCompatActivity {
     @Override
