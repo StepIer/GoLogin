@@ -3,6 +3,7 @@ package com.go.login.di;
 
 import com.go.login.ui.login.LoginFragment;
 import com.go.login.data.network.NetworkService;
+import com.go.login.ui.registration.RegistrationFragment;
 
 import javax.inject.Singleton;
 
@@ -13,6 +14,7 @@ public interface ApplicationComponent {
 
     void inject(NetworkService networkService);
     void inject(LoginFragment loginFragment);
+    void inject(RegistrationFragment registrationFragment);
 
 
 

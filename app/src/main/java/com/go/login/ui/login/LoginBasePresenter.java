@@ -4,17 +4,15 @@ package com.go.login.ui.login;
 import com.go.login.data.entity.LoginUserDTO;
 import com.go.login.usecases.LoginUseCase;
 
-import java.util.Observable;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
-public class LoginPresenter implements LoginContract.Presenter {
+public class LoginBasePresenter implements LoginContract.Presenter {
 
     private final LoginUseCase loginUseCase;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public LoginPresenter(LoginUseCase loginUseCase) {
+    public LoginBasePresenter(LoginUseCase loginUseCase) {
         this.loginUseCase = loginUseCase;
     }
 

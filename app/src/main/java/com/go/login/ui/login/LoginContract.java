@@ -1,11 +1,14 @@
 package com.go.login.ui.login;
 
+import com.go.login.ui.base.BasePresenter;
+import com.go.login.ui.base.BaseView;
+
 public interface LoginContract  {
-    interface View extends com.go.login.ui.base.View {
+    interface View extends BaseView {
 
         void toUserInfo();
     }
-    interface Presenter extends com.go.login.ui.base.Presenter {
+    interface Presenter extends BasePresenter {
 
         void start(View view);
 

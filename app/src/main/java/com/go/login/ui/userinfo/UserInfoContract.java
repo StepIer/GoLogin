@@ -1,21 +1,17 @@
-package com.go.login.ui.registration;
+package com.go.login.ui.userinfo;
 
 import android.view.View;
 
 import com.go.login.ui.base.BasePresenter;
 import com.go.login.ui.base.BaseView;
+import com.go.login.ui.registration.RegistrationContract;
 
-public interface RegistrationContract {
+public interface UserInfoContract {
     interface View extends BaseView {
-        void toLogin(android.view.View view);
+        void showUserInfo();
 
     }
     interface Presenter extends BasePresenter {
-
         void start(View view);
-
-
-        void singin(String email, String password);
-
     }
 }

@@ -1,6 +1,5 @@
 package com.go.login.ui.login;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.go.login.App;
 import com.go.login.R;
 import com.go.login.data.network.JSONGoLoginApi;
 import com.go.login.data.network.TokenProvider;
-import com.go.login.data.entity.LoginUserDTO;
 import com.go.login.data.entity.RegistrationData;
 import com.go.login.data.entity.TokenData;
 import com.go.login.ui.MainActivity;
@@ -76,12 +74,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
         MainActivity mainActivity = (MainActivity) this.getActivity();
 
 
-        get = rootView.findViewById(R.id.btn_get);
-        post_user = rootView.findViewById(R.id.btn_post_user);
-        post_user_login = rootView.findViewById(R.id.btn_post_user_login);
-        textView = rootView.findViewById(R.id.text_login);
 
-        registration = rootView.findViewById(R.id.btn_registration);
 
 
         registration.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_registrationFragment));
