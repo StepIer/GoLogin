@@ -16,12 +16,11 @@ public class RegistrationUseCase {
         this.jsonGoLoginApi = jsonGoLoginApi;
         this.tokenProvider = tokenProvider;
     }
+
     public Completable registration(RegistrationData registrationData){
         return Completable.fromSingle(jsonGoLoginApi
                 .postUser(registrationData)
-                .doOnSuccess(tokenData -> {
-                    tokenProvider.setPref(tokenData.getToken());
-                })
+                .doOnSuccess(tokenData -> tokenProvider.setToken(tokenData.getToken()))
                 .subscribeOn(Schedulers.io())
         );
     }

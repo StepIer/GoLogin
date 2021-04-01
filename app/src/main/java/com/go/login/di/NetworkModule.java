@@ -1,6 +1,5 @@
 package com.go.login.di;
 
-
 import android.content.Context;
 
 import com.go.login.data.network.JSONGoLoginApi;
@@ -20,7 +19,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
 
-
     @Provides
     public Retrofit provideRetrofit() {
         return new Retrofit.Builder()
@@ -35,12 +33,14 @@ public class NetworkModule {
     public NetworkService provideNetworkService(Retrofit retrofit) {
         return new NetworkService(retrofit);
     }
+
     @Provides
-    public JSONGoLoginApi provideJSONGoLoginApi(Retrofit retrofit){
+    public JSONGoLoginApi provideJSONGoLoginApi(Retrofit retrofit) {
         return retrofit.create(JSONGoLoginApi.class);
     }
+
     @Provides
-    public TokenProvider providerTokenProvider(Context context){
+    public TokenProvider providerTokenProvider(Context context) {
         return new TokenProvider(context);
     }
 

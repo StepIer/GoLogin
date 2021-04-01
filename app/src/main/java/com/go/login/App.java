@@ -7,6 +7,7 @@ import com.go.login.di.ApplicationModule;
 import com.go.login.di.DaggerApplicationComponent;
 
 public class App extends Application {
+
     public static ApplicationComponent applicationComponent;
 
     @Override
@@ -15,8 +16,6 @@ public class App extends Application {
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
-
     }
-
 }
 

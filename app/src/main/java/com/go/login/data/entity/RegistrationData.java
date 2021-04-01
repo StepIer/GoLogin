@@ -3,16 +3,9 @@ package com.go.login.data.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-//
-//{
-//        "email": "string",
-//        "password": "string",
-//        "passwordConfirm": "string",
-//        "googleClientId": "string"
-//        }
 
 
-
+@SuppressWarnings("unused")
 public class RegistrationData {
 
     public RegistrationData(String email, String password, String passwordConfirm, String googleClientId) {

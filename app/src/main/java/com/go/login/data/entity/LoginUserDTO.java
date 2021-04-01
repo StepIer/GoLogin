@@ -2,14 +2,8 @@ package com.go.login.data.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-/*
-* LoginUserDTO{
-username*	string
-password*	string
-fromApp*	boolean
-googleClientId*	string
-}
-* */
+
+@SuppressWarnings("unused")
 public class LoginUserDTO {
 
     public LoginUserDTO(String username, String password, boolean fromApp, String googleClientId) {

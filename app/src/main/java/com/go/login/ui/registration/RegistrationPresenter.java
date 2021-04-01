@@ -1,16 +1,21 @@
 package com.go.login.ui.registration;
 
+import android.util.Log;
+
+import com.go.login.Config;
 import com.go.login.data.entity.RegistrationData;
 import com.go.login.usecases.RegistrationUseCase;
+import com.google.android.material.snackbar.Snackbar;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import retrofit2.HttpException;
 
-public class RegistrationBasePresenter implements RegistrationContract.Presenter {
+public class RegistrationPresenter implements RegistrationContract.Presenter {
 
     private final RegistrationUseCase registrationUseCase;
 
 
-    public RegistrationBasePresenter(RegistrationUseCase registrationUseCase) {
+    public RegistrationPresenter(RegistrationUseCase registrationUseCase) {
         this.registrationUseCase = registrationUseCase;
     }
 
@@ -22,18 +27,15 @@ public class RegistrationBasePresenter implements RegistrationContract.Presenter
     }
 
     @Override
-    public void singin(String email, String password) {
-        registrationUseCase.registration(new RegistrationData(email, password, password, "1234"))
+    public void singUp(String email, String password, String confirmPassword) {
+        registrationUseCase.registration(new RegistrationData(email, password, confirmPassword, Config.GOOGLE_ID))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
+                    view.toUserInfo();
 
                 }, throwable -> {
-
+                    view.showError();
                 });
     }
 
-    @Override
-    public void stop() {
-        view = null;
-    }
 }

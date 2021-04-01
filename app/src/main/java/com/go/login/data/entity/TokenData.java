@@ -3,17 +3,7 @@ package com.go.login.data.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-//{
-//        "_id": "string",
-//        "access_token": "string",
-//        "refresh_token": "string",
-//        "token": "string"
-//        }
-
-
-/**
- * String id, String accessToken, String refreshToken, String token
- */
+@SuppressWarnings("unused")
 public class TokenData {
 
 

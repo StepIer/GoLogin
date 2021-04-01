@@ -14,15 +14,26 @@ import dagger.Provides;
 public class UseCaseModule {
 
     @Provides
-    public GetCurrentUserUseCase provideGetCurrentUserUseCase(JSONGoLoginApi jsonGoLoginApi, TokenProvider tokenProvider){
+    public GetCurrentUserUseCase provideGetCurrentUserUseCase(
+            JSONGoLoginApi jsonGoLoginApi,
+            TokenProvider tokenProvider
+    ){
         return new GetCurrentUserUseCase(jsonGoLoginApi, tokenProvider);
     }
+
     @Provides
-    public LoginUseCase provideLogInUseCase(JSONGoLoginApi jsonGoLoginApi, TokenProvider tokenProvider){
+    public LoginUseCase provideLogInUseCase(
+            JSONGoLoginApi jsonGoLoginApi,
+            TokenProvider tokenProvider
+    ){
         return new LoginUseCase(jsonGoLoginApi, tokenProvider);
     }
+
     @Provides
-    public RegistrationUseCase provideRegistrationUseCase(JSONGoLoginApi jsonGoLoginApi, TokenProvider tokenProvider){
+    public RegistrationUseCase provideRegistrationUseCase(
+            JSONGoLoginApi jsonGoLoginApi,
+            TokenProvider tokenProvider
+    ){
         return new RegistrationUseCase(jsonGoLoginApi, tokenProvider);
     }
 

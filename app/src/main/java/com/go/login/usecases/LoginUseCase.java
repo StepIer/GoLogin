@@ -8,8 +8,8 @@ import io.reactivex.rxjava3.core.Completable;
 
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-
 public class LoginUseCase {
+
     private final JSONGoLoginApi jsonGoLoginApi;
     private final TokenProvider tokenProvider;
 
@@ -19,15 +19,10 @@ public class LoginUseCase {
     }
 
     public Completable logIn(LoginUserDTO loginUserDTO) {
-
         return Completable.fromSingle(jsonGoLoginApi
                 .postUserLogin(loginUserDTO)
-                .doOnSuccess(tokenData -> {
-                    tokenProvider.setPref(tokenData.getToken());
-                })
+                .doOnSuccess(tokenData -> tokenProvider.setToken(tokenData.getToken()))
                 .subscribeOn(Schedulers.io())
-
         );
     }
-
 }

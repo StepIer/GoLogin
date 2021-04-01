@@ -1,17 +1,14 @@
 package com.go.login.ui.userinfo;
 
-import android.view.View;
-
-import com.go.login.ui.base.BasePresenter;
-import com.go.login.ui.base.BaseView;
-import com.go.login.ui.registration.RegistrationContract;
+import androidx.annotation.NonNull;
+import com.go.login.data.entity.UserEntity;
 
 public interface UserInfoContract {
-    interface View extends BaseView {
-        void showUserInfo();
-
+    interface View{
+        void showUserInfo(@NonNull UserEntity userEntity);
     }
-    interface Presenter extends BasePresenter {
+
+    interface Presenter{
         void start(View view);
     }
 }

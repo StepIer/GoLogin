@@ -3,19 +3,8 @@ package com.go.login.data.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/*
-UserEntity{
-_id*	string
-email*	string
-createdAt*	string
-plan*	{...}
-needCard*	boolean
-hasTrial	boolean
-trialDays	number
-}
-* */
 
-
+@SuppressWarnings("unused")
 public class UserEntity {
     @SerializedName("_id")
     @Expose
